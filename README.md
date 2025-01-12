@@ -1,4 +1,4 @@
-A simple but advanced slot machine resource for your qbcore server ! will work with qbcore and qbx but must be using ox inventory.
+A simple but advanced slot machine resource for your qbcore server ! will work with qbcore and qbx but must be using ox inventory, and ox_target
 Config file to place the machine anywhere currently its setup to fill in the spot down in drusillas in the basement
 if you don't have the mlo for drusillas I would suggest changing the config to suit where you want to place it
 this is a first for me so if you have any issues let me know I have tested it in my own server with no issues 
