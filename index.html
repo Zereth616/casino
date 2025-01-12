@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Machine</title>
+    <style>
+        /* Main styles for the slot machine */
+        body {
+            display: none; /* Hide initially */
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1604903995682-fb2650c4b0bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxMTc3M3wwfDF8c2VhcmNofDExNnx8c2xvdCUyMG1hY2hpbmV8ZW58MHx8fHwxNjQ3NDM3NjE1&ixlib=rb-1.2.1&q=80&w=1080') no-repeat center center fixed;
+            background-size: cover;
+            color: #FFD700; /* Gold color for text */
+            font-family: 'Verdana', sans-serif; /* Modern font */
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Main slot machine container */
+        .slot-container {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: rgba(0, 0, 0, 0.8);
+            border: 5px solid #FFD700; /* Golden border */
+            border-radius: 15px;
+            width: 750px;
+            padding: 20px; /* Reduced padding for a closer look */
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.7); /* Golden glow */
+            text-align: center;
+            margin: auto;
+        }
+
+        /* Header for slot machine */
+        .slot-header {
+            font-size: 2.2em; /* Slightly smaller for uniformity */
+            text-shadow: 0 0 10px rgba(255, 215, 0, 1);
+            margin-bottom: 10px; /* Reduced margin */
+            font-weight: bold;
+        }
+
+        /* Enhanced payouts box styling */
+        .payouts {
+            background: linear-gradient(145deg, rgba(50, 50, 50, 0.8), rgba(0, 0, 0, 0.5)); /* Darker gradient */
+            border-radius: 10px;
+            padding: 15px; /* Reduced padding */
+            width: 80%; /* Width adjustment */
+            max-width: 600px; /* Max width for better appearance */
+            margin: 10px auto; /* Reduced spacing */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s;
+        }
+
+        .payouts:hover {
+            transform: scale(1.02); /* Slightly enlarge on hover */
+        }
+
+        .payouts h2 {
+            font-size: 2em; /* Slightly smaller header */
+            color: #FFD700;
+            margin-bottom: 10px; /* Reduced margin */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .payouts p {
+            font-size: 1.4em; /* Slightly smaller for uniformity */
+            margin: 3px 0; /* Reduced margin for spacing */
+            color: #FFD700;
+            letter-spacing: 0.5px;
+            transition: color 0.3s; /* Transition for color change */
+        }
+
+        .payouts p:hover {
+            color: #ffcc00; /* Changing color on hover */
+        }
+
+        /* Slot machine styling */
+        .slot-machine {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 4px solid #FFD700;
+            border-radius: 10px;
+            padding: 10px; /* Reduced padding */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            background: rgba(50, 50, 50, 0.9);
+        }
+
+        .reel {
+            flex: 1;
+            height: 200px;
+            border: 2px solid #FFD700;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4em; /* Slightly smaller for uniformity */
+            background: rgba(75, 75, 75, 0.9);
+            transition: transform 0.5s; /* Smooth transition for spinning effect */
+        }
+
+        /* Button styling */
+        button {
+            margin: 5px; /* Reduced margin for closer spacing */
+            padding: 10px 20px; /* Reduced padding for uniformity */
+            border: none;
+            background: linear-gradient(145deg, #ffcc00, #ff9900); /* Golden gradient */
+            color: white;
+            cursor: pointer;
+            font-size: 1.4em; /* Slightly smaller to fit better */
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: linear-gradient(145deg, #ff9900, #ffcc00); /* Change gradient on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        button:active {
+            transform: scale(0.95); /* Slightly shrink on click */
+        }
+
+        /* Notification box styling */
+        .notification {
+            background-color: rgba(255, 0, 0, 0.9);
+            color: white;
+            padding: 5px; /* Reduced padding */
+            border-radius: 5px;
+            margin: 10px 0; /* Reduced margin */
+            display: none;
+            animation: fade-in 0.5s, fade-out 0.5s 3s;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.8);
+        }
+
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fade-out {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        /* Styling for cash and winnings display */
+        .info {
+            display: flex;
+            justify-content: space-between; /* Space between cash and winnings */
+            width: 80%; /* Better width for alignment */
+            margin: 5px 0; /* Reduced margin for spacing */
+        }
+
+        .cash-label {
+            font-size: 1.4em; /* Slightly smaller for uniformity */
+        }
+    </style>
+</head>
+<body>
+    <div class="slot-container">
+        <div class="slot-header">Slot Machine</div>
+        <div class="payouts">
+            <h2>Payouts</h2>
+            <p>🍒🍒🍒🍒🍒: $75</p>
+            <p>🍋🍋🍋🍋🍋: $150</p>
+            <p>🌿🌿🌿🌿🌿: $200</p>
+            <p>🌴🌴🌴🌴🌴: $250</p>
+            <p>⭐️⭐️⭐️⭐️⭐️: $300</p>
+            <p>🔔🔔🔔🔔🔔: $350</p>
+            <p>💰💰💰💰💰: $400</p>
+            <p>🍉🍉🍉🍉🍉: $125</p>
+            <p>💎💎💎💎💎: $500</p>
+            <p>🍊🍊🍊🍊🍊: $100</p>
+            <p>Four of a Kind: Value of higher symbol</p>
+            <p>Special Mix: $100</p>
+            <p><strong>Spin Cost: 50 Chips</strong></p> <!-- Added spin cost info -->
+        </div>
+
+        <div class="slot-machine">
+            <div class="reel" id="reel1">🍒</div>
+            <div class="reel" id="reel2">🍋</div>
+            <div class="reel" id="reel3">🌿</div>
+            <div class="reel" id="reel4">🌴</div>
+            <div class="reel" id="reel5">⭐️</div>
+        </div>
+
+        <div class="info">
+            <div id="casinoChips" class="casino-label">Casino Chips: 0</div>
+            <div id="winnings" class="casino-label">Winnings: $0</div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; width: 80%;">
+            <button class="spin-button" id="spinButton">Spin</button>
+            <button class="cashout-button" id="cashoutButton">Cash Out</button>
+        </div>
+        
+        <button class="close-button" id="closeButton">Close</button>
+        
+        <div id="notification" class="notification"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let currentCasinoChips = 100; // Example starting chips for testing
+            let currentWinnings = 0;
+
+            // Popular slot symbols
+            const symbols = ['🍒', '🍋', '🌿', '🌴', '⭐️', '🔔', '💰', '🍉', '💎', '🍊'];
+
+            window.addEventListener('message', function (event) {
+                if (event.data.action === 'open') {
+                    document.body.style.display = 'flex';
+                    currentCasinoChips = event.data.chips; // Initialize chips
+                    currentWinnings = 0; // Reset winnings
+                    updateDisplay();
+                    showNotification('Welcome to the Slot Machine! Click Spin to play.');
+                } else if (event.data.action === 'showReelResults') {
+                    displayReelResults(event.data.results);
+                    currentCasinoChips = event.data.chips; // Update chips after spin results
+                    currentWinnings = event.data.winnings; // Update winnings after spin results
+                    updateDisplay();
+                }
+            });
+
+            function updateDisplay() {
+                document.getElementById('casinoChips').textContent = `Casino Chips: ${currentCasinoChips}`;
+                document.getElementById('winnings').textContent = `Winnings: $${currentWinnings}`;
+            }
+
+            function displayReelResults(results) {
+                // Display final results
+                for (let i = 0; i < results.length; i++) {
+                    document.getElementById(`reel${i + 1}`).textContent = results[i];
+                }
+                showNotification('Spin complete!');
+            }
+
+            // Spin Functionality
+            document.getElementById('spinButton').addEventListener('click', function (event) {
+                event.preventDefault();
+                fetch(`https://${GetParentResourceName()}/spin`, {
+                    method: 'POST'
+                }).then(response => response.json())
+                  .then(data => {
+                    if (currentCasinoChips < 50) {
+                        showNotification('Not enough chips to spin!');
+                        return;
+                    }
+                    
+                    currentCasinoChips -= 50; // Deduct the cost of spin
+                    updateDisplay();
+                    
+                    const spinDuration = 3000; // Duration of the spin
+                    const spinInterval = 100; // Interval for the intermediate steps
+                    let spinning = setInterval(() => {
+                        for (let i = 1; i <= 5; i++) {
+                            const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+                            document.getElementById(`reel${i}`).textContent = randomSymbol;
+                        }
+                    }, spinInterval);
+
+                    // After spinDuration, stop spinning and show final result
+                    setTimeout(() => {
+                        clearInterval(spinning);
+
+                        // Generate final results
+                        const finalResults = [];
+                        for (let i = 0; i < 5; i++) {
+                            finalResults.push(symbols[Math.floor(Math.random() * symbols.length)]);
+                        }
+
+                        displayReelResults(finalResults);
+                        calculateWinnings(finalResults);
+                    }, spinDuration);
+                }).catch(err => console.error('Spin Error:', err));
+            });
+
+            function calculateWinnings(finalResults) {
+                // Payout calculation logic based on the combination of results
+                const payoutTable = {
+                    '🍒🍒🍒🍒🍒': 75,
+                    '🍋🍋🍋🍋🍋': 150,
+                    '🌿🌿🌿🌿🌿': 200,
+                    '🌴🌴🌴🌴🌴': 250,
+                    '⭐️⭐️⭐️⭐️⭐️': 300,
+                    '🔔🔔🔔🔔🔔': 350,
+                    '💰💰💰💰💰': 400,
+                    '🍉🍉🍉🍉🍉': 125,
+                    '💎💎💎💎💎': 500,
+                    '🍊🍊🍊🍊🍊': 100
+                };
+
+                let winnings = 0;
+
+                // Check for five of a kind (already in payoutTable)
+                const combination = finalResults.join('');
+                winnings += payoutTable[combination] || 0;
+
+                // Check for four of a kind
+                const fourOfAKind = finalResults.some(s => finalResults.filter(v => v === s).length === 4);
+                if (fourOfAKind) {
+                    winnings += 50; // Example payout for four of a kind
+                }
+
+                // Check for three of a kind
+                const threeOfAKind = finalResults.some(s => finalResults.filter(v => v === s).length === 3);
+                if (threeOfAKind) {
+                    winnings += 20; // Example payout for three of a kind
+                }
+
+                // Implementing a 'Special Mix' payout (a combination of different symbols, for example)
+                const uniqueSymbols = new Set(finalResults);
+                if (uniqueSymbols.size === finalResults.length && finalResults.length >= 3) {
+                    winnings += 100; // Example payout for special mix
+                }
+
+                currentWinnings += winnings;
+
+                updateDisplay();
+                
+            }
+
+            document.getElementById('cashoutButton').addEventListener('click', function (event) {
+                event.preventDefault();
+                if (currentWinnings <= 0) {
+                    showNotification('No winnings to cash out!');
+                    return;
+                }
+
+                // Notify server to add winnings
+                fetch(`https://${GetParentResourceName()}/cashOut`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ currentWinnings: currentWinnings })
+                }).then(response => response.json()).then(data => {
+                    if (data.status === 'ok') {
+                        currentCasinoChips += currentWinnings; // Update chips upon cash out
+                        currentWinnings = 0; // Reset winnings
+                        updateDisplay();
+                        showNotification(`Cash out successful! You received ${data.winnings} casino chips.`);
+                    } else {
+                        showNotification('Cash out failed!');
+                    }
+                }).catch(err => console.error('Cash Out Error:', err));
+            });
+
+            document.getElementById('closeButton').addEventListener('click', function (event) {
+                event.preventDefault();
+                document.body.style.display = 'none'; // Hide the UI when closing
+                fetch(`https://${GetParentResourceName()}/closeUI`, { method: 'POST' });
+            });
+
+            function showNotification(text) {
+                const notification = document.getElementById('notification');
+                notification.textContent = text;
+                notification.style.display = 'block';
+                setTimeout(() => { notification.style.display = 'none'; }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
