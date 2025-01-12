@@ -11,3 +11,7 @@ cash them out for you and update the current casinochips to reflect
 no way to exploit the machine as it won't let you go negative and when you cashout it gets reset to zero.
 since casinochips are counted from your inventory if you don't use all your chips you don't lose them! 
 NEED TO MAKE A SEPERATE FOLDER FOR THE INDEX.HTML IN ORDER FOR THIS TO WORK. FIRST TIME USING GITHUB SO i COULDN'T FIGURE OUT HOW TO ADD A FULL FILE BUT THE FILE NAME IS GOING TO BE html so in the main casino file add in a new folder named html and add in the index.html above 
+DEPENDENCYS 
+ox_target
+ox_inventory
+qbcore/qbx
